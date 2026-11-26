@@ -1,0 +1,49 @@
+name: 'Lockwise Migration Safety Linter'
+description: 'Lint Drizzle Kit, Prisma Migrate, and raw PostgreSQL migrations for locking and zero-downtime hazards.'
+author: 'shiprig'
+branding:
+  icon: 'shield'
+  color: 'blue'
+inputs:
+  paths:
+    description: 'Glob patterns for migration SQL files'
+    required: false
+    default: 'drizzle/**/*.sql,prisma/migrations/**/migration.sql'
+  orm:
+    description: 'ORM mode: auto | drizzle | prisma | sql'
+    required: false
+    default: 'auto'
+  fail-on:
+    description: 'Minimum severity to fail the workflow: error | warn | none'
+    required: false
+    default: 'error'
+  comment:
+    description: 'Post or update a sticky PR summary comment'
+    required: false
+    default: 'true'
+  sarif-file:
+    description: 'Optional output path for SARIF v2.1.0 report'
+    required: false
+    default: ''
+  pg-version:
+    description: 'Target PostgreSQL major version (12-18)'
+    required: false
+    default: '17'
+  config:
+    description: 'Optional path to lockwise.config.ts/mjs/json'
+    required: false
+    default: ''
+  github-token:
+    description: 'GitHub token for PR sticky comments and changed-file fallback (avoid running on pull_request_target)'
+    required: false
+    default: ${{ github.token }}
+outputs:
+  findings-count:
+    description: 'Total findings reported'
+  error-count:
+    description: 'Total error-severity findings reported'
+  sarif-path:
+    description: 'Path to generated SARIF report if enabled'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
