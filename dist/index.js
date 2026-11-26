@@ -53538,10 +53538,11 @@ function compareFindings(a, b) {
 async function analyzeMigration(input2, config2) {
   const validatedInput = MigrationInputSchema.parse(input2);
   const validatedConfig = LockwiseConfigSchema.parse(config2 ?? {});
-  const offsetIndex = createUtf8OffsetIndex(validatedInput.sql);
-  const scanResult = scanRawSql(validatedInput.sql, offsetIndex);
+  const sql = validatedInput.sql.startsWith("\uFEFF") ? validatedInput.sql.slice(1) : validatedInput.sql;
+  const offsetIndex = createUtf8OffsetIndex(sql);
+  const scanResult = scanRawSql(sql, offsetIndex);
   const { statements, parseErrors } = await parsePostgresSql(
-    validatedInput.sql,
+    sql,
     validatedInput.filePath,
     offsetIndex
   );
