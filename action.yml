@@ -3,7 +3,7 @@ description: 'Lint Drizzle Kit, Prisma Migrate, and raw PostgreSQL migrations fo
 author: 'shiprig'
 branding:
   icon: 'shield'
-  color: 'blue'
+  color: 'orange'
 inputs:
   paths:
     description: 'Glob patterns for migration SQL files'
@@ -30,7 +30,7 @@ inputs:
     required: false
     default: '17'
   config:
-    description: 'Optional path to lockwise.config.ts/mjs/json'
+    description: 'Optional path to lockwise.config.{ts,mts,mjs,js,json}'
     required: false
     default: ''
   github-token:
